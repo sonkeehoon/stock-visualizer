@@ -48,7 +48,7 @@ streamlit run app.py
 ## 프로젝트 구조
 ```bash
 stock-visualizer/
-│
+├─ img/              # 이미지 폴더
 ├─ app.py            # Streamlit 웹 앱
 ├─ crawler.py        # 네이버 주식 크롤러
 ├─ visualizer.py     # 히트맵 시각화 함수

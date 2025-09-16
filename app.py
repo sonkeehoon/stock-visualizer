@@ -33,7 +33,7 @@ col1, col2, col3 = st.columns([1,2,1])
 with col2:
     # 현재 시각 구하기
     kst = pytz.timezone('Asia/Seoul')
-    now_live = datetime.now().strftime(" %Y년 %m월 %d일 %H:%M:%S")
+    now_live = datetime.now(kst).strftime(" %Y년 %m월 %d일 %H:%M:%S")
     
     if st.button("새로고침"):
         with st.spinner("데이터를 새로고침하는 중... ⏳"):

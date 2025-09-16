@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import squarify
 from datetime import datetime
+import pytz
 
 plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
@@ -26,7 +27,8 @@ if __name__ == "__main__":
 def make_treemap(df):
     """전처리된 df로 트리맵 생성, fig 반환"""
     
-    now = datetime.now().strftime(" %Y년 %m월 %d일 %H:%M:%S")
+    kst = pytz.timezone('Asia/Seoul')
+    now = datetime.now(kst).strftime(" %Y년 %m월 %d일 %H:%M:%S")
     # 색상 매핑 (등락률 기준)
     colors = df["등락률"].apply(lambda x: plt.cm.RdYlGn((x + 5) / 10))
 

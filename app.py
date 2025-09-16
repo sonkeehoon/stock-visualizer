@@ -2,6 +2,7 @@
 
 import streamlit as st
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import importlib
 import time
 from datetime import datetime
@@ -13,6 +14,7 @@ import crawler  # crawler.py 전체 불러오기
 # 한글 폰트 설정
 plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
+rc('font', family='NanumGothic')
 
 st.set_page_config(page_title="코스피 Top100", layout="wide")
 

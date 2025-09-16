@@ -22,6 +22,9 @@ Streamlit을 이용해 웹 앱 형태로 띄우며, 새로고침 버튼으로 �
 
 ---
 
+## 접속
+http://localhost:8501
+
 ## 설치
 
 ```bash
@@ -55,7 +58,7 @@ stock-visualizer/
 ```
 ## 기술 스택
 
-- Python 3.x
+- Python
 
 - pandas, numpy
 
@@ -70,6 +73,6 @@ stock-visualizer/
 
 ## 개발 환경
 - OS: Ubuntu 22.04 (WSL 2)
-- Python: 3.12
+- Python: 3.12.3
 - 가상환경: venv
 

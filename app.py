@@ -101,10 +101,10 @@ with open("img/naver_blog.png", "rb") as f:
 st.markdown(
     f"""
     <hr style="margin-top:50px; margin-bottom:10px;"> 
-        <div style='text-align: center; font-size: 15px; color: #555;'>
-            Stock Visualizer: <a href="{github_url}" target="_blank">
-                <img src="data:image/png;base64,{github_logo}" width="35" style="vertical-align:middle;">
-                    </a></div>
+    <div style='text-align: center; font-size: 15px; color: #555;'>
+        Stock Visualizer: <a href="{github_url}" target="_blank">
+            <img src="data:image/png;base64,{github_logo}" width="35" style="vertical-align:middle;">
+                </a></div>
                 
     <div style='text-align: center; font-size: 15px; color: #555;'> 
         개발자 블로그: <a href="{naver_blog_url}" target="_blank">

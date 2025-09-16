@@ -6,6 +6,7 @@ from matplotlib import rc
 import importlib
 import time
 from datetime import datetime
+import pytz
 from visualizer import make_treemap
 import base64
 
@@ -31,6 +32,7 @@ if "refresh" not in st.session_state:
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     # 현재 시각 구하기
+    kst = pytz.timezone('Asia/Seoul')
     now_live = datetime.now().strftime(" %Y년 %m월 %d일 %H:%M:%S")
     
     if st.button("새로고침"):

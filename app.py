@@ -1,5 +1,7 @@
 # app.py
 
+import logging
+import uuid
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib import rc
@@ -7,10 +9,23 @@ import importlib
 import time
 from datetime import datetime
 import pytz
-from visualizer import make_treemap
 import base64
 
+
+from visualizer import make_treemap
 import crawler  # crawler.py 전체 불러오기
+
+
+# 접속 로그 출력 설정
+
+# 로거 설정
+logging.basicConfig(level=logging.INFO)
+
+# 세션 ID 생성
+if 'session_id' not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
+logging.info(f" | 접속자가 앱을 열었습니다 | 세션ID={st.session_state.session_id}")  # docker logs에서 확인 가능
 
 # 한글 폰트 설정
 plt.rcParams['font.family'] = 'NanumGothic'
@@ -22,7 +37,7 @@ st.set_page_config(page_title="코스피 Top100", layout="wide")
 # === 가운데 정렬 제목 ===
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
-    st.title("코스피 시총 Top 100 히트맵")
+    st.title("코스피 시총 Top100 히트맵")
     
 # session_state 초기화
 if "refresh" not in st.session_state:

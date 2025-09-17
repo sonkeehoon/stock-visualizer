@@ -21,8 +21,8 @@ COPY img/ ./img/
 # 5. Python 패키지 설치
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 6. Streamlit 포트 노출
-EXPOSE 8501
+# 6. Streamlit 포트 노출 (80으로 설정)
+EXPOSE 80
 
 # 7. 컨테이너 시작 시 Streamlit 앱 실행
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=80", "--server.address=0.0.0.0"]

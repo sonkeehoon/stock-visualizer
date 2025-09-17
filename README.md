@@ -80,3 +80,9 @@ stock-visualizer/
 - Python: 3.12.3
 - 가상환경: venv
 
+## 배포 환경
+- AWS EC2 (Ubuntu 24.04.3 LTS)
+  - t3.small
+- Docker 컨테이너 기반 서버 실행  
+  (Dockerfile 작성 → 이미지 빌드 → 컨테이너 실행 → EC2에서 서버 구동)
+

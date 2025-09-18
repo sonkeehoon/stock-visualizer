@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import squarify
 from datetime import datetime
 import pytz
+import pandas as pd
 
 plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
@@ -15,16 +16,7 @@ plt.rcParams['axes.unicode_minus'] = False
 #     "시가총액": [450, 120, 60, 55, 40, 70, 35, 25, 20, 30]  # 단위: 조원 (임의값)
 # }
 
-if __name__ == "__main__":
-    
-    from crawler import target_df
-    df = target_df.copy()
-    # 전처리
-    df["등락률"] = df["등락률"].str.replace("%","").astype(float)
-    df["시가총액(억)"] = df["시가총액(억)"].str.replace(",","").astype(int)
-
-
-def make_treemap(df):
+def make_treemap(df: pd.DataFrame)-> plt.Figure:
     """전처리된 df로 트리맵 생성, fig 반환"""
     
     kst = pytz.timezone('Asia/Seoul')
@@ -51,3 +43,12 @@ def make_treemap(df):
     ax.set_title(f"코스피 Top 100 ({now})", fontsize=12)
     ax.axis("off")
     return fig
+
+if __name__ == "__main__":
+    
+    import crawler
+    df = crawler.get_target_df().copy()
+    # 전처리
+    df["등락률"] = df["등락률"].str.replace("%","").astype(float)
+    df["시가총액(억)"] = df["시가총액(억)"].str.replace(",","").astype(int)
+    make_treemap(df)

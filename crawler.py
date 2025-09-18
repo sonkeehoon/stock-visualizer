@@ -9,7 +9,10 @@ columns = ["종목별", "현재가", "전일비", "등락률",
 
 
 
-def get_target_df():
+def get_target_df()-> pd.DataFrame:
+    '''
+    코스피 시가총액 상위 100개 기업 크롤링 후 데이터프레임으로 반환
+    '''
     
     data = []  # 데이터를 담을 리스트 생성
     for i in range(10):  # 1~10페이지까지 크롤링 (페이지당 10개, 총 100개 기업)
@@ -26,7 +29,6 @@ def get_target_df():
         for row in rows[2: -2]:
             cols = row.select("td")
             data.append([c.get_text(strip=True) for c in cols])
-
 
     df = pd.DataFrame(data, columns=columns)
     target_df = df[["종목별", "등락률","시가총액(억)"]]

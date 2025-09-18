@@ -19,6 +19,7 @@ import crawler  # crawler.py 전체 불러오기
 logging.basicConfig(level=logging.INFO)
 
 # 세션 ID 생성
+
 if 'session_id' not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 

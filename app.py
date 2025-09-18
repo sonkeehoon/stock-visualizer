@@ -5,16 +5,13 @@ import uuid
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib import rc
-import importlib
 import time
 from datetime import datetime
 import pytz
 import base64
 
-
 from visualizer import make_treemap
 import crawler  # crawler.py 전체 불러오기
-
 
 # 접속 로그 출력 설정
 
@@ -52,8 +49,8 @@ with col2:
     
     if st.button("새로고침"):
         with st.spinner("데이터를 새로고침하는 중... ⏳"):
-            df = crawler.target_df.copy()
-            importlib.reload(crawler)  # crawler.py 다시 불러오기
+            df = crawler.get_target_df()  # 최신 데이터 크롤링
+            # importlib.reload(crawler)  # crawler.py 다시 불러오기
             time.sleep(2)
             st.success("데이터 갱신 완료 ✅")
     
@@ -65,7 +62,7 @@ if st.session_state.refresh:
     # st.experimental_rerun()  # 최신 버전이면 여전히 필요
 
 # 데이터 로드
-df = crawler.target_df.copy()
+df = crawler.get_target_df()
 
 # 전처리
 df["등락률"] = df["등락률"].str.replace("%","").astype(float)

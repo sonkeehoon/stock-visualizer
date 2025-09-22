@@ -23,11 +23,10 @@ Streamlit을 이용해 웹 앱 형태로 띄우며, 새로고침 버튼으로 �
 ---
 
 ## 접속방법
-http://kospi100.duckdns.org/
+🔗 http://kospi100.duckdns.org/  
+> ⚠️ *AWS 무료 크레딧 기준으로 2026년 3월 11일까지 운영됩니다. 이후 서비스 종료 가능성 있음.*
 
-> ⚠️ 이 서버는 AWS 무료 크레딧 기준으로 **2026년 3월 11일**까지 운영됩니다.  
-> 그 이후에는 서비스가 종료될 수 있습니다.
-
+---
 
 ## 설치
 
@@ -76,11 +75,19 @@ stock-visualizer/
 ![alt text](img/sample.png)
 
 ## 개발 환경
-- OS: Ubuntu 22.04 (WSL 2)
-- Python: 3.12.3
+
+<img width="158" height="58" alt="image" src="https://github.com/user-attachments/assets/413129de-64cd-4834-8601-615044fe0b1a" />
+
+- OS: Ubuntu 24.04.2 (WSL 2)
+- Python
 - 가상환경: venv
+- 에디터: vscode
 
 ## 배포 환경
+
+<img width="206" height="60" alt="image" src="https://github.com/user-attachments/assets/4ceed7aa-38c2-446c-936d-a8541fba51a4" />
+
+
 - AWS EC2 (Ubuntu 24.04.3 LTS)
   - 인스턴스 타입: t3.small
 - Docker 컨테이너 기반 서버 실행  

@@ -23,7 +23,7 @@ Streamlit을 이용해 웹 앱 형태로 띄우며, 새로고침 버튼으로 �
 ---
 
 ## 접속방법
-🔗 http://kospi100.duckdns.org/  
+🔗 [stock-top100.duckdns.org](http://stock-top100.duckdns.org/)  
 > ⚠️ *AWS 무료 크레딧 기준으로 2026년 3월 11일까지 운영됩니다. 이후 서비스 종료 가능성 있음.*
 
 ---

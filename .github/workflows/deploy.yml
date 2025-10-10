@@ -1,0 +1,63 @@
+name: Deploy repo to EC2
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - "Makefile"
+      - "Dockerfile"
+      - "app.py"
+      - "crawler.py"
+      - "requirements.txt"
+      - "visualizer.py"
+
+env:
+  DOCKER_IMAGE: stock-visualizer   # 🧩 Docker 이미지 이름
+  CONTAINER_NAME: stock-visualizer # 🧩 컨테이너 이름
+  HOST_PORT: 80                    # 🧩 EC2 외부에서 접속할 포트
+  CONTAINER_PORT: 80               # 🧩 컨테이너 포트
+  EC2_APP_PATH: ~/stock-visualizer # 🧩 EC2의 앱 디렉터리 경로
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            echo "🚀 Deploying ${{ env.DOCKER_IMAGE }} to EC2..."
+
+            cd ${{ env.EC2_APP_PATH }}
+            git fetch origin master
+            git reset --hard origin/master
+
+            echo "🧹 Cleaning old containers/images..."
+            docker stop ${{ env.CONTAINER_NAME }} || true
+            docker rm ${{ env.CONTAINER_NAME }} || true
+            docker system prune -af
+
+            echo "🏗️ Building new Docker image..."
+            docker build -t ${{ env.DOCKER_IMAGE }} .
+
+            echo "🚀 Running new container..."
+            docker run -d \
+              --name ${{ env.CONTAINER_NAME }} \
+              -p ${{ env.HOST_PORT }}:${{ env.CONTAINER_PORT }} \
+              --restart always \
+              ${{ env.DOCKER_IMAGE }}
+
+            echo "✅ Deployment complete!"
+            echo "🔍 Checking server health..."
+            sleep 5
+            curl -f http://localhost:${{ env.HOST_PORT }} || (echo "❌ Health check failed!" && exit 1)
+            echo "✅ Server is healthy!"

@@ -1,5 +1,8 @@
 # Stock Visualizer - 코스피 Top 100 히트맵
 
+## 워크 플로우
+<img width="1925" height="164" alt="Untitled diagram-2025-10-15-100620" src="img/stock-visualizer-diagram.png" />
+
 한국 시가총액 상위 100개 기업을 대상으로 **실시간 주식 정보를 크롤링**하고, 
 
 **트리맵 형태의 히트맵으로 시각화**하는 Python 앱입니다.

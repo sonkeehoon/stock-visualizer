@@ -31,6 +31,6 @@ def get_target_df()-> pd.DataFrame:
             data.append([c.get_text(strip=True) for c in cols])
 
     df = pd.DataFrame(data, columns=columns)
-    target_df = df[["종목별", "등락률","시가총액(억)"]]
+    target_df = df[["종목별", "등락률", "현재가", "시가총액(억)"]]
     return target_df
     

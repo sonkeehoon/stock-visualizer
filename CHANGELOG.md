@@ -1,8 +1,15 @@
 # Changelog
 
+## [0.0.8] - 2025-10-27
+### Added
+- 데이터프레임에 "현재가" 컬럼 추가
+- .github/workflows 추가
+    - deploy.yml: master에 커밋 시 자동 배포
+    - format.yml: develop에 커밋 시 자동으로 코드 정리(black + isort)
+
 ## [0.0.5] - 2025-09-18
 ### Added
-- Docker 명령어 실행 Makefile 추가
+- 배포 환경에서 컨테이너를 제어하는 Makefile 추가
 
 ## [0.0.2] - 2025-09-18
 ### Fixed

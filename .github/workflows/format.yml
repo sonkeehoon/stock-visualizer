@@ -1,0 +1,52 @@
+# .github/workflows/format.yml
+name: Code Formatter (Black + isort)
+
+on:
+  push:
+    branches: [ "develop" ]  # ✅ develop에서만 자동 수정되게
+    paths:
+      - "app.py"
+      - "crawler.py"
+      - "visualizer.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # ✅ GITHUB_TOKEN이 push할 수 있도록 설정
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}   # ✅ push 권한 필요
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.3"
+
+      - name: Install format tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install black isort
+
+      - name: Run isort & black (auto-fix)
+        run: |
+          isort .
+          black .
+
+      - name: Commit & push if changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "🤖 Auto format code with Black + isort"
+            git push
+          else
+            echo "✨ No formatting changes to commit"
+          fi
+          

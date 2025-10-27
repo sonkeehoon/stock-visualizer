@@ -12,11 +12,11 @@ on:
       - "visualizer.py"
 
 env:
-  DOCKER_IMAGE: stock-visualizer   # 🧩 Docker 이미지 이름
-  CONTAINER_NAME: stock-visualizer # 🧩 컨테이너 이름
-  HOST_PORT: 80                    # 🧩 EC2 외부에서 접속할 포트
-  CONTAINER_PORT: 80               # 🧩 컨테이너 포트
-  EC2_APP_PATH: ~/stock-visualizer # 🧩 EC2의 앱 디렉터리 경로
+  DOCKER_IMAGE: stock-visualizer_img   # 🧩 Docker 이미지 이름
+  CONTAINER_NAME: stock-visualizer     # 🧩 컨테이너 이름
+  HOST_PORT: 80                        # 🧩 EC2 외부에서 접속할 포트
+  CONTAINER_PORT: 80                   # 🧩 컨테이너 포트
+  EC2_APP_PATH: ~/stock-visualizer     # 🧩 EC2의 앱 디렉터리 경로
 
 jobs:
   deploy:
@@ -34,7 +34,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-
             echo "🚀 Deploying ${{ env.DOCKER_IMAGE }} to EC2..."
 
             cd ${{ env.EC2_APP_PATH }}

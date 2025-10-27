@@ -1,6 +1,6 @@
 # Makefile
-IMAGE_NAME = kospi100_image
-CONTAINER_NAME = kospi100
+IMAGE_NAME = stock-visualizer_img
+CONTAINER_NAME = stock-visualizer
 PORT = 80
 
 

@@ -1,17 +1,18 @@
 # app.py
 
-import logging
-import uuid
-import streamlit as st
-import matplotlib.pyplot as plt
-from matplotlib import rc
-import time
-from datetime import datetime
-import pytz
 import base64
+import logging
+import time
+import uuid
+from datetime import datetime
 
-from visualizer import make_treemap
+import matplotlib.pyplot as plt
+import pytz
+import streamlit as st
+from matplotlib import rc
+
 import crawler  # crawler.py 전체 불러오기
+from visualizer import make_treemap
 
 # 접속 로그 출력 설정
 
@@ -20,43 +21,45 @@ logging.basicConfig(level=logging.INFO)
 
 # 세션 ID 생성
 
-if 'session_id' not in st.session_state:
+if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
-logging.info(f" | 접속자가 앱을 열었습니다 | 세션ID={st.session_state.session_id}")  # docker logs에서 확인 가능
+logging.info(
+    f" | 접속자가 앱을 열었습니다 | 세션ID={st.session_state.session_id}"
+)  # docker logs에서 확인 가능
 
 # 한글 폰트 설정
-plt.rcParams['font.family'] = 'NanumGothic'
-plt.rcParams['axes.unicode_minus'] = False
-rc('font', family='NanumGothic')
+plt.rcParams["font.family"] = "NanumGothic"
+plt.rcParams["axes.unicode_minus"] = False
+rc("font", family="NanumGothic")
 
 st.set_page_config(page_title="코스피 Top100", layout="wide")
 
 # === 가운데 정렬 제목 ===
-col1, col2, col3 = st.columns([1,2,1])
+col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.title("코스피 시총 Top100 히트맵")
-    
+
 # session_state 초기화
 if "refresh" not in st.session_state:
     st.session_state.refresh = False
 
 # === 새로고침 버튼 가운데 배치 ===
-col1, col2, col3 = st.columns([1,2,1])
+col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     # 현재 시각 구하기
-    kst = pytz.timezone('Asia/Seoul')
+    kst = pytz.timezone("Asia/Seoul")
     now_live = datetime.now(kst).strftime(" %Y년 %m월 %d일 %H:%M:%S")
-    
+
     if st.button("새로고침"):
         with st.spinner("데이터를 새로고침하는 중... ⏳"):
             df = crawler.get_target_df()  # 최신 데이터 크롤링
             # importlib.reload(crawler)  # crawler.py 다시 불러오기
             time.sleep(2)
             st.success("데이터 갱신 완료 ✅")
-    
+
     st.write(f"마지막 갱신 시각 : {now_live}")
-    
+
 # 새로고침 플래그 체크
 if st.session_state.refresh:
     st.session_state.refresh = False
@@ -66,8 +69,8 @@ if st.session_state.refresh:
 df = crawler.get_target_df()
 
 # 전처리
-df["등락률"] = df["등락률"].str.replace("%","").astype(float)
-df["시가총액(억)"] = df["시가총액(억)"].str.replace(",","").astype(int)
+df["등락률"] = df["등락률"].str.replace("%", "").astype(float)
+df["시가총액(억)"] = df["시가총액(억)"].str.replace(",", "").astype(int)
 
 # 트리맵 배치하기
 fig = make_treemap(df)
@@ -81,7 +84,7 @@ st.markdown(
     """
     <h2 style='text-align: center;'>📊 코스피 Top 100 </h2>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 df_display = df.copy()
@@ -94,13 +97,13 @@ df_display["시가총액(억)"] = df_display["시가총액(억)"].map("{:,}".for
 
 df_display.index = df_display.index + 1  # 인덱스 1부터 시작
 
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     st.dataframe(
-        df_display, 
-        # width="content", 
-        width = 800,
-        height = 400
+        df_display,
+        # width="content",
+        width=800,
+        height=400,
     )
 
 github_url = "https://github.com/sonkeehoon/stock-visualizer"
@@ -129,5 +132,5 @@ st.markdown(
         </a>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )

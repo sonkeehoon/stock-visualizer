@@ -52,7 +52,9 @@ with kospi_tab:
     with col2:
         # 현재 시각 구하기
         kst = pytz.timezone("Asia/Seoul")
-        cur_time = datetime.now(kst).strftime("%b %d, %Y %I:%M:%S %p")  # e.g. Oct 28, 2025 04:31:33 PM
+        cur_time = datetime.now(kst).strftime(
+            "%b %d, %Y %I:%M:%S %p"
+        )  # e.g. Oct 28, 2025 04:31:33 PM
 
         if st.button("새로고침"):
             with st.spinner("데이터를 새로고침하는 중... ⏳"):
@@ -75,7 +77,7 @@ with kospi_tab:
     df["시가총액(억)"] = df["시가총액(억)"].str.replace(",", "").astype(int)
 
     # 트리맵 배치하기
-    fig = make_treemap(df, market = "KOSPI")
+    fig = make_treemap(df, market="KOSPI")
 
     # Streamlit에 출력
     st.pyplot(fig)
@@ -107,7 +109,7 @@ with kospi_tab:
             width=800,
             height=400,
         )
-        
+
 with US_tab:
     # === 가운데 정렬 제목 ===
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -123,7 +125,9 @@ with US_tab:
     with col2:
         # 현재 시각 구하기
         kst = pytz.timezone("Asia/Seoul")
-        cur_time = datetime.now(kst).strftime("%b %d, %Y %I:%M:%S %p")  # e.g. Oct 28, 2025 04:31:33 PM
+        cur_time = datetime.now(kst).strftime(
+            "%b %d, %Y %I:%M:%S %p"
+        )  # e.g. Oct 28, 2025 04:31:33 PM
 
         if st.button("Refresh"):
             with st.spinner("Refreshing data... ⏳"):
@@ -145,7 +149,7 @@ with US_tab:
     df["Change (%)"] = df["Change (%)"].str.replace("%", "").astype(float)
 
     # 트리맵 배치하기
-    fig = make_treemap(df, market = "U.S.")
+    fig = make_treemap(df, market="U.S.")
 
     # Streamlit에 출력
     st.pyplot(fig)

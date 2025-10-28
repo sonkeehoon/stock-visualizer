@@ -3,7 +3,7 @@
 ## 워크 플로우
 <img width="1925" height="164" alt="Untitled diagram-2025-10-15-100620" src="img/stock-visualizer-diagram.png" />
 
-한국 시가총액 상위 100개 기업을 대상으로 **실시간 주식 정보를 크롤링**하고, 
+한국, 미국 시가총액 상위 100개 기업을 대상으로 **실시간 주식 정보를 크롤링**하고, 
 
 **트리맵 형태의 히트맵으로 시각화**하는 Python 앱입니다.
 
@@ -13,7 +13,7 @@ Streamlit을 이용해 웹 앱 형태로 띄우며, 새로고침 버튼으로 �
 
 ## 기능
 
-- 한국 시총 100대 기업 데이터 크롤링 (네이버 금융)
+- 한국, 미국 시총 100대 기업 데이터 크롤링 (네이버 금융, 야후 파이넨스)
 - 종목별 **등락률, 시가총액** 기반 히트맵 시각화
 - Streamlit 웹 앱에서:
   - 히트맵 실시간 확인
@@ -56,7 +56,7 @@ streamlit run app.py
 stock-visualizer/
 ├─ img/              # 이미지 폴더
 ├─ app.py            # Streamlit 웹 앱
-├─ crawler.py        # 네이버 주식 크롤러
+├─ crawler.py        # 주식 웹페이지 크롤러
 ├─ visualizer.py     # 히트맵 시각화 함수
 ├─ requirements.txt  # 필수 패키지 목록
 ├─ README.md         # 프로젝트 설명

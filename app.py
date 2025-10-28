@@ -33,78 +33,147 @@ plt.rcParams["font.family"] = "NanumGothic"
 plt.rcParams["axes.unicode_minus"] = False
 rc("font", family="NanumGothic")
 
-st.set_page_config(page_title="코스피 Top100", layout="wide")
+st.set_page_config(page_title="Live Stock Info", layout="wide")
 
-# === 가운데 정렬 제목 ===
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.title("코스피 시총 Top100 히트맵")
+kospi_tab, US_tab, er_tab = st.tabs(["Kospi Top100", "US Top100", "Exchange Rate"])
 
-# session_state 초기화
-if "refresh" not in st.session_state:
-    st.session_state.refresh = False
+with kospi_tab:
+    # === 가운데 정렬 제목 ===
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.title(f"코스피 Top100 히트맵")
 
-# === 새로고침 버튼 가운데 배치 ===
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    # 현재 시각 구하기
-    kst = pytz.timezone("Asia/Seoul")
-    now_live = datetime.now(kst).strftime(" %Y년 %m월 %d일 %H:%M:%S")
+    # session_state 초기화
+    if "refresh_kospi" not in st.session_state:
+        st.session_state.refresh_kospi = False
 
-    if st.button("새로고침"):
-        with st.spinner("데이터를 새로고침하는 중... ⏳"):
-            df = crawler.get_target_df()  # 최신 데이터 크롤링
-            # importlib.reload(crawler)  # crawler.py 다시 불러오기
-            time.sleep(2)
-            st.success("데이터 갱신 완료 ✅")
+    # === 새로고침 버튼 가운데 배치 ===
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        # 현재 시각 구하기
+        kst = pytz.timezone("Asia/Seoul")
+        cur_time = datetime.now(kst).strftime("%b %d, %Y %I:%M:%S %p")  # e.g. Oct 28, 2025 04:31:33 PM
 
-    st.write(f"마지막 갱신 시각 : {now_live}")
+        if st.button("새로고침"):
+            with st.spinner("데이터를 새로고침하는 중... ⏳"):
+                df = crawler.get_kospi_df()  # 최신 데이터 크롤링
+                time.sleep(2)
+                st.session_state.refresh_kospi = True
+                st.success("데이터 갱신 완료 ✅")
 
-# 새로고침 플래그 체크
-if st.session_state.refresh:
-    st.session_state.refresh = False
-    # st.experimental_rerun()  # 최신 버전이면 여전히 필요
+        st.write(f"마지막 갱신 시각: {cur_time}")
 
-# 데이터 로드
-df = crawler.get_target_df()
+    # 새로고침 플래그 체크
+    if st.session_state.refresh_kospi:
+        st.session_state.refresh_kospi = False
 
-# 전처리
-df["등락률"] = df["등락률"].str.replace("%", "").astype(float)
-df["시가총액(억)"] = df["시가총액(억)"].str.replace(",", "").astype(int)
+    # 데이터 로드
+    df = crawler.get_kospi_df()
 
-# 트리맵 배치하기
-fig = make_treemap(df)
+    # 전처리
+    df["등락률"] = df["등락률"].str.replace("%", "").astype(float)
+    df["시가총액(억)"] = df["시가총액(억)"].str.replace(",", "").astype(int)
 
-# Streamlit에 출력
-st.pyplot(fig)
+    # 트리맵 배치하기
+    fig = make_treemap(df, market = "KOSPI")
 
-# === 크롤링한 원본 데이터 표 출력 ===
+    # Streamlit에 출력
+    st.pyplot(fig)
 
-st.markdown(
-    """
-    <h2 style='text-align: center;'>📊 코스피 Top 100 </h2>
-    """,
-    unsafe_allow_html=True,
-)
+    # === 크롤링한 원본 데이터 표 출력 ===
 
-df_display = df.copy()
-
-# 등락률 뒤에 % 붙이기
-df_display["등락률"] = df_display["등락률"].map("{:+.2f}%".format)
-
-# 시가총액(억) 천 단위 콤마 추가
-df_display["시가총액(억)"] = df_display["시가총액(억)"].map("{:,}".format)
-
-df_display.index = df_display.index + 1  # 인덱스 1부터 시작
-
-col1, col2, col3 = st.columns([1, 1, 1])
-with col2:
-    st.dataframe(
-        df_display,
-        # width="content",
-        width=800,
-        height=400,
+    st.markdown(
+        """
+        <h2 style='text-align: center;'>📊 코스피 Top 100 </h2>
+        """,
+        unsafe_allow_html=True,
     )
+
+    df_display = df.copy()
+
+    # 등락률 뒤에 % 붙이기
+    df_display["등락률"] = df_display["등락률"].map("{:+.2f}%".format)
+
+    # 시가총액(억) 천 단위 콤마 추가
+    df_display["시가총액(억)"] = df_display["시가총액(억)"].map("{:,}".format)
+
+    df_display.index = df_display.index + 1  # 인덱스 1부터 시작
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        st.dataframe(
+            df_display,
+            # width="content",
+            width=800,
+            height=400,
+        )
+        
+with US_tab:
+    # === 가운데 정렬 제목 ===
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.title("U.S. Top 100 Heatmap")
+
+    # session_state 초기화
+    if "refresh_US" not in st.session_state:
+        st.session_state.refresh_US = False
+
+    # === 새로고침 버튼 가운데 배치 ===
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        # 현재 시각 구하기
+        kst = pytz.timezone("Asia/Seoul")
+        cur_time = datetime.now(kst).strftime("%b %d, %Y %I:%M:%S %p")  # e.g. Oct 28, 2025 04:31:33 PM
+
+        if st.button("Refresh"):
+            with st.spinner("Refreshing data... ⏳"):
+                df = crawler.get_US_df()  # 최신 데이터 크롤링
+                time.sleep(2)
+                st.session_state.refresh_US = True
+                st.success("Data refreshed successfully ✅")
+
+        st.write(f"Last updated: {cur_time}")
+
+    # 새로고침 플래그 체크
+    if st.session_state.refresh_US:
+        st.session_state.refresh_US = False
+
+    # 데이터 로드
+    df = crawler.get_US_df()
+
+    # 전처리
+    df["Change (%)"] = df["Change (%)"].str.replace("%", "").astype(float)
+
+    # 트리맵 배치하기
+    fig = make_treemap(df, market = "U.S.")
+
+    # Streamlit에 출력
+    st.pyplot(fig)
+
+    # === 크롤링한 원본 데이터 표 출력 ===
+
+    st.markdown(
+        """
+        <h2 style='text-align: center;'>📊 Nasdaq Top 100 </h2>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    df_display = df.iloc[:, :-1].copy()
+
+    # 등락률 뒤에 % 붙이기
+    df_display["Change (%)"] = df_display["Change (%)"].map("{:+.2f}%".format)
+
+    df_display.index = df_display.index + 1  # 인덱스 1부터 시작
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        st.dataframe(
+            df_display,
+            # width="content",
+            width=800,
+            height=400,
+        )
 
 github_url = "https://github.com/sonkeehoon/stock-visualizer"
 naver_blog_url = "https://blog.naver.com/djfkfk12345"

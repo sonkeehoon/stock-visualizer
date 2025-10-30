@@ -35,7 +35,7 @@ rc("font", family="NanumGothic")
 
 st.set_page_config(page_title="Live Stock Info", layout="wide")
 
-kospi_tab, US_tab, er_tab = st.tabs(["Kospi Top100", "US Top100", "Exchange Rate"])
+kospi_tab, US_tab, er_tab = st.tabs(["Kospi Top100", "U.S. Top100", "Exchange Rate"])
 
 with kospi_tab:
     # === 가운데 정렬 제목 ===
@@ -158,7 +158,7 @@ with US_tab:
 
     st.markdown(
         """
-        <h2 style='text-align: center;'>📊 Nasdaq Top 100 </h2>
+        <h2 style='text-align: center;'>📊 U.S. Top 100 </h2>
         """,
         unsafe_allow_html=True,
     )

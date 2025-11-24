@@ -75,3 +75,41 @@ def get_US_df() -> pd.DataFrame:
         data.append([name, change_per, price, market_cap])
 
     return pd.DataFrame(data, columns=columns)
+
+def get_er_df() -> pd.DataFrame:
+    """
+    주요 4개국 환율 크롤링 후 데이터프레임으로 반환
+    """
+    
+    nations = ["USD", "EUR", "JPY", "CNY"]
+    
+    data = []
+    columns = [
+        "label",
+        "price",
+        "change",
+        "chart_url"
+    ]  # 컬럼리스트 생성
+    
+    for nation in nations:
+        url = f"https://finance.naver.com/marketindex/exchangeDetail.naver?marketindexCd=FX_{nation}KRW"
+        headers = {"User-Agent": "Mozilla/5.0"}
+        res = requests.get(url, headers=headers)
+        soup = BeautifulSoup(res.text, "lxml")
+        spot = soup.select_one("#content > div.spot")
+        price = spot.select_one("div.today > p.no_today > em.no_up > em.no_up").get_text().strip()
+        change = spot.select_one("p.no_exday > em.no_up:nth-of-type(2)").get_text().strip()
+        change = change.replace("(", "").replace(")", "").replace("\n", "")
+        chart_url = f"https://ssl.pstatic.net/imgfinance/chart/marketindex/area/month3/FX_{nation}KRW.png"
+        data.append([nation, price, change, chart_url])
+    
+    df = pd.DataFrame(data=data, columns=columns)
+    df.set_index("label", inplace=True)
+    
+    return df
+
+if __name__ == "__main__":
+    er_df = get_er_df()
+    # print(er_df)
+    print(er_df.loc["USD"])
+    

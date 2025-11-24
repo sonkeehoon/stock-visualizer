@@ -56,7 +56,7 @@ with kospi_tab:
             "%b %d, %Y %I:%M:%S %p"
         )  # e.g. Oct 28, 2025 04:31:33 PM
 
-        if st.button("새로고침", key = "kospi_refresh_button"):
+        if st.button("새로고침", key="kospi_refresh_button"):
             with st.spinner("데이터를 새로고침하는 중... ⏳"):
                 df = crawler.get_kospi_df()  # 최신 데이터 크롤링
                 time.sleep(2)
@@ -129,7 +129,7 @@ with US_tab:
             "%b %d, %Y %I:%M:%S %p"
         )  # e.g. Oct 28, 2025 04:31:33 PM
 
-        if st.button("Refresh", key = "US_refresh_button"):
+        if st.button("Refresh", key="US_refresh_button"):
             with st.spinner("Refreshing data... ⏳"):
                 df = crawler.get_US_df()  # 최신 데이터 크롤링
                 time.sleep(2)
@@ -181,12 +181,12 @@ with US_tab:
 
 with er_tab:
     nations = ["USD", "EUR", "JPY", "CNY"]
-    
+
     # === 왼쪽 정렬 제목 ===
     col1, col2, col3 = st.columns([1, 2, 1])
     with col1:
         st.markdown("## 💱 주요 4개국 환율")
-    
+
     # session_state 초기화
     if "refresh_US" not in st.session_state:
         st.session_state.refresh_US = False
@@ -200,7 +200,7 @@ with er_tab:
             "%b %d, %Y %I:%M:%S %p"
         )  # e.g. Oct 28, 2025 04:31:33 PM
 
-        if st.button("새로고침", key = "er_refresh_button"):
+        if st.button("새로고침", key="er_refresh_button"):
             with st.spinner("데이터를 새로고침하는 중... ⏳"):
                 er_df = crawler.get_er_df()  # 최신 데이터 크롤링
                 time.sleep(2)
@@ -208,14 +208,14 @@ with er_tab:
                 st.success("데이터 갱신 완료 ✅")
 
         st.write(f"마지막 갱신 시각: {cur_time}")
-    
+
     # 새로고침 플래그 체크
     if st.session_state.refresh_US:
         st.session_state.refresh_US = False
 
     # 데이터 로드
     er_df = crawler.get_er_df()
-    
+
     # =========================
     # 1행: 미국 달러(왼쪽 큰 영역) / 유로(오른쪽)
     # =========================
@@ -225,7 +225,7 @@ with er_tab:
     for nation in nations:
         info = er_df.loc[nation]
         box = st.container(border=True)
-        
+
         label = ""
         if nation == "USD":
             label = "미국 달러"
@@ -235,23 +235,23 @@ with er_tab:
             label = "일본 엔화"
         elif nation == "CNY":
             label = "중국 위안화"
-        
+
         with box:
             st.markdown(
-            f"""
+                f"""
             <h3>
                 {label}({nation}) &nbsp; {info['price']}<span style="font-size:14px; ">&nbsp;원&nbsp;</span>
                 <span style="font-size:14px; color:#777;"> 전일대비 </span> {info['change']} 
             </h3>
             """,
-            unsafe_allow_html=True,
-        )
+                unsafe_allow_html=True,
+            )
 
             # TODO: 3개월 환율 차트 데이터로 교체
             # usd_df = crawler.get_usd_history("3개월")
             img_url = f"https://ssl.pstatic.net/imgfinance/chart/marketindex/area/month3/FX_{nation}KRW.png"
-            st.image(img_url, width = 750)
-            
+            st.image(img_url, width=750)
+
 
 github_url = "https://github.com/sonkeehoon/stock-visualizer"
 naver_blog_url = "https://blog.naver.com/djfkfk12345"

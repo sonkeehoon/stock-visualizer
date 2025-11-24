@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - 2025-10-30
+## [0.2.0] - 2025-11-24
 ### Added
 - `Exchange Rate` 탭 및 내용 추가
 ### Fixed

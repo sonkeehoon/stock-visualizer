@@ -92,13 +92,13 @@ def get_er_df() -> pd.DataFrame:
         headers = {"User-Agent": "Mozilla/5.0"}
         res = requests.get(url, headers=headers)
         soup = BeautifulSoup(res.text, "lxml")
-        
+
         spot = soup.select_one("#content > div.spot")
-        
+
         # price (class 이름에 의존하지 않고 em 하나만 가져오기)
         price_em = spot.select_one("div.today p.no_today em")
         price = price_em.get_text(strip=True) if price_em else None
-        
+
         # change (두 번째 em 사용, 클래스 무시)
         change_em_list = spot.select("p.no_exday em")
         if len(change_em_list) >= 2:
@@ -108,7 +108,7 @@ def get_er_df() -> pd.DataFrame:
         else:
             change = ""
         change = change.replace("(", "").replace(")", "").replace("\n", "")
-        
+
         chart_url = f"https://ssl.pstatic.net/imgfinance/chart/marketindex/area/month3/FX_{nation}KRW.png"
         data.append([nation, price, change, chart_url])
 

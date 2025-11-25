@@ -1,10 +1,13 @@
 # Changelog
 
+## [0.2.1] - 2025-11-25
+### Fixed
+- crawler.py 수정
+    - 환율 크롤링 함수(get_er_df) 오류 수정
+
 ## [0.2.0] - 2025-11-24
 ### Added
 - `Exchange Rate` 탭 및 내용 추가
-### Fixed
-- README.md 속 워크플로우 이미지 수정
 
 ## [0.1.1] - 2025-10-30
 ### Fixed

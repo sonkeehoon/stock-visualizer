@@ -67,7 +67,7 @@ def get_US_df() -> pd.DataFrame:
         row = tbody.find("tr", attrs={"data-testid-row": f"{i}"})
 
         name = row.select_one("td:nth-child(2) > div").get_text()
-        
+
         price_tag = row.select_one("td:nth-child(4) > div > fin-streamer")
         span = price_tag.find("span")
         price = span.get_text() if span else price_tag.get_text()

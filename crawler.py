@@ -43,7 +43,7 @@ def get_kospi_df() -> pd.DataFrame:
 
 def get_US_df() -> pd.DataFrame:
     """
-    나스닥 시가총액 상위 100개 기업 크롤링 후 데이터프레임으로 반환
+    미국 시가총액 상위 100개 기업 크롤링 후 데이터프레임으로 반환
     """
     data = []
     columns = [
@@ -61,15 +61,21 @@ def get_US_df() -> pd.DataFrame:
         "#main-content-wrapper > section.yf-12mq010 > div > div.tableContainer.yf-2v9ias > div > table"
     )
     tbody = table.select_one("tbody")
-    # print(tbody)
 
     data = []
     for i in range(100):
         row = tbody.find("tr", attrs={"data-testid-row": f"{i}"})
 
         name = row.select_one("td:nth-child(2) > div").get_text()
-        price = row.select_one("td:nth-child(4) > div > fin-streamer").get_text()
-        change_per = row.select_one("td:nth-child(6) > fin-streamer > span").get_text()
+        
+        price_tag = row.select_one("td:nth-child(4) > div > fin-streamer")
+        span = price_tag.find("span")
+        price = span.get_text() if span else price_tag.get_text()
+
+        change_per_tag = row.select_one("td:nth-child(6) > fin-streamer")
+        span2 = change_per_tag.find("span")
+        change_per = span2.get_text() if span2 else change_per_tag.get_text()
+
         market_cap = row.select_one("td:nth-child(9) > fin-streamer").get_text()
 
         data.append([name, change_per, price, market_cap])
@@ -119,6 +125,6 @@ def get_er_df() -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    er_df = get_er_df()
+    US_df = get_US_df()
     # print(er_df)
     # print(er_df.loc["USD"])

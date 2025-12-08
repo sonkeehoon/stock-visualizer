@@ -60,7 +60,7 @@ def get_US_df() -> pd.DataFrame:
     table = soup.select_one(
         "#main-content-wrapper > section.yf-1wny0q0 > div > div.tableContainer.yf-2v9ias > div > table"
     )
-    
+
     tbody = table.select_one("tbody")
 
     data = []

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.4] - 2025-12-12
+### Fixed
+- crawler.py 수정
+    - 미국 주식 크롤링 함수(get_US_df) 버그 수정
+
 ## [0.2.3] - 2025-12-08
 ### Fixed
 - crawler.py 수정

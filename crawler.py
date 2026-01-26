@@ -69,15 +69,15 @@ def get_US_df() -> pd.DataFrame:
 
         name = row.select_one("td:nth-child(2) > div").get_text()
 
-        price_tag = row.select_one("td:nth-child(4) > div > fin-streamer")
+        price_tag = row.select_one("td:nth-child(4) > div")
         span = price_tag.find("span")
         price = span.get_text() if span else price_tag.get_text()
 
-        change_per_tag = row.select_one("td:nth-child(6) > fin-streamer")
+        change_per_tag = row.select_one("td:nth-child(6)")
         span2 = change_per_tag.find("span")
         change_per = span2.get_text() if span2 else change_per_tag.get_text()
 
-        market_cap = row.select_one("td:nth-child(9) > fin-streamer").get_text()
+        market_cap = row.select_one("td:nth-child(9) > span").get_text()
 
         data.append([name, change_per, price, market_cap])
 

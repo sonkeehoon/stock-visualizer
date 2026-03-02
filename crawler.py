@@ -58,7 +58,7 @@ def get_US_df() -> pd.DataFrame:
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, "lxml")
     table = soup.select_one(
-        "#main-content-wrapper > section.yf-grb3qw > div > div.tableContainer.yf-1bczin > div > table"
+        "#main-content-wrapper > section.yf-7f9dbl > div > div.tableContainer.yf-1nql2a7 > div > table"
     )
 
     tbody = table.select_one("tbody")
